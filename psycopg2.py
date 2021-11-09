@@ -2,8 +2,8 @@ import time
 import os
 import psycopg2
 from configparser import ConfigParser
-from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
+# from flask import Flask, request
+# from flask_sqlalchemy import SQLAlchemy
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
