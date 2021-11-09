@@ -2,12 +2,14 @@ import time
 import pandas as pd
 from os import path
 import psycopg2
+from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 from configparser import ConfigParser
 import csv
 
-DATA_DIR = '/Users/chadtolleson/Documents/PSU/2020_Winter/Data_Science/Data_Science_IndStdy/data'
-# DB_DIR = '/Users/chadtolleson/Documents/PSU/2020_Winter/Data_Science/Data_Science_IndStdy/db'
-CODE_DIR = '/Users/chadtolleson/Documents/PSU/2020_Winter/Data_Science/Data_Science_IndStdy/code'
+DATA_DIR = './data'
+DB_DIR = './db'
+CODE_DIR = './code'
 
 def config(filename=(path.join(CODE_DIR,'database.ini')), section='postgresql'):
     parser = ConfigParser()  # creating a parser
