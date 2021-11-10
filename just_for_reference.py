@@ -1,15 +1,15 @@
 import time
-import pandas as pd
+# import pandas as pd
 from os import path
 import psycopg2
-from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
+# from flask import Flask, request
+# from flask_sqlalchemy import SQLAlchemy
 from configparser import ConfigParser
 import csv
 
 DATA_DIR = './data'
 DB_DIR = './db'
-CODE_DIR = './code'
+CODE_DIR = './configurations'
 
 def config(filename=(path.join(CODE_DIR,'database.ini')), section='postgresql'):
     parser = ConfigParser()  # creating a parser
@@ -118,6 +118,6 @@ if __name__ == '__main__':
     startTime = time.time()
     # data = pd.read_csv(path.join(DATA_DIR,'all_stocks_5yr.csv'))
     connect()
-    loadData()
+    # loadData()
 
     print('total running time:',time.time()-startTime,'seconds')
