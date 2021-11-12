@@ -17,8 +17,14 @@ CREATE OR REPLACE VIEW public.vw_target_latest_status AS
 	GROUP BY target, name
 	ORDER BY last_date ASC;
 
+CREATE OR REPLACE VIEW public.vw_position_info AS
+	SELECT p.target_id, p.position_id, p.position_name, p.position_link, p.position_tier, t.tier_name, p.position_notes
+	FROM positions p, tiers t
+	WHERE p.position_tier = t.tier_id
+	ORDER BY p.position_id;
+
 CREATE OR REPLACE VIEW public.vw_position_status_log AS
-	SELECT status_log.position_id, statuses.status, status_log.status_note, status_log.status_date
+	SELECT status_log.position_id, status_log.status_date, status_log.status_note, status_log.status_id, statuses.status
 	FROM status_log, statuses
 	WHERE status_log.status_id = statuses.status_id
 	ORDER BY status_date ASC;

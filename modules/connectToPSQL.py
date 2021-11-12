@@ -1,7 +1,7 @@
 import psycopg2
 from configurations import getConfiguration
 
-def connectToPSQL(queryText="""SELECT version()""", v=False):
+def selectFromPSQL(queryText="""SELECT version()""", v=False):
     """ Connect to the PostgreSQL database server """
     connection = None
     try:
@@ -23,9 +23,23 @@ def connectToPSQL(queryText="""SELECT version()""", v=False):
             connection.close()
         if v: print('PostgreSQL database connection closed.')
 
-
+def crudPSQL(queryText):
+    connection = None
+    try:
+        parameters = getConfiguration.config('database.ini', 'postgresql')
+        connection = psycopg2.connect(**parameters)
+        cursor = connection.cursor()
+        cursor.execute(queryText)
+        connection.commit()
+        return cursor.rowcount()
+    except (Exception, psycopg2.Error) as error:
+        print(f'There was an error when connecting: {error}')
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
 
 if __name__ == '__main__':
 
-    a = connectToPSQL(v=True)
+    a = selectFromPSQL(v=True)
     print(f'results from query: {a}')

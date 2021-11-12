@@ -13,12 +13,14 @@ Tool for tracking target companies, job applications, and application status.
 
 ### To-Do ###
 - add functionality for sqlite3, may need to create a more generalizable database connection system
-- write views to list targets and their most recent activity date
+- ~~write view to list targets and their most recent activity date~~
 - create status to bury a target
-- write a view to display the activity log for a particular target/position
+- ~~write a view to display the activity log for a particular target/position~~
 - create a data model to store database in a hosted environment (GCP, Heroku, etc.)
 - create a web interface
+- create a Sankey diagram
 - verfiy DB table keys and foreign key logic to ensure duplicates are not possible
+- refactor psycopg2/SQL to reduce risk of SQL injection
 
 ### References ###
 - ConfigParser - https://docs.python.org/3/library/configparser.html
