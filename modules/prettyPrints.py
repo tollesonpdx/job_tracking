@@ -1,4 +1,4 @@
-from modules import connectToPSQL as psql
+# from modules import connectToPSQL as psql
 
 def intro():
     print(
@@ -35,15 +35,15 @@ def printTarget(target, num_spaces=0):
 
 def printPosition(position, printStatusToo = True, num_spaces=0):
     l = ' ' * num_spaces # calculate the leading space
+    print()
+    if position[0]: print(f"{l}Position ID: {position[0]:>4}")
     print(
-        f"\n"
-        f"{l}Position ID# {position[0]:>4}\n"
         f"{l}Name: {position[2]}\n"
         f"{l}Link: {position[3]}\n"
         f"{l}Tier: {position[4]}-{position[5]}\n"
         f"{l}Notes: {position[6]}"
     )
-    if printStatusToo:
+    if printStatusToo and position[0]:
         statusLog = psql.selectFromPSQL(f"SELECT * FROM vw_position_status_log WHERE position_id = {position[0]}")
         for row in statusLog:
             printStatus(row, num_spaces+4)
@@ -58,3 +58,11 @@ def printAdded(added):
 def printTiers():
     tiers = psql.selectFromPSQL(f"SELECT * FROM tiers")
     for tier in tiers: print(f"{tier[0]} - {tier[1]}")
+
+
+if __name__ == '__main__':
+    print('printing intro')
+    intro()
+    
+    print('\n\n\nprinting test position')
+    printPosition((None, 1, 'aaa', 'www.nyt.com', 0, 'recruiter', 'aaa'))

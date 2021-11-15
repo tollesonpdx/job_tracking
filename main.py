@@ -8,6 +8,7 @@ if __name__ == '__main__':
         elif choice == '2': mf.oneTarget()
         elif choice == '3': mf.addTarget()
         elif choice == '4': mf.addPosition()
+        elif choice == '5': mf.updateStatus()
         else:
             print('Thanks, come again.\n\n')
             exit(0)

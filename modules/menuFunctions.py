@@ -39,10 +39,10 @@ def addTarget():
 def addPosition():
     confirm = False
     while confirm != 'y':
-        print("\n Enter detail for new position.")
+        print("\nEnter detail for new position.")
         posTarget = None
         while isinstance(posTarget, int) == False:
-            print("Enter the ID for the target company, or\nenter L to list target companies and their ID, or\nenter X to return to main menu", end='')
+            print("\nEnter the ID for the target company, or\nenter L to list target companies and their ID, or\nenter X to return to main menu", end='')
             posTarget = input(': ')
             if posTarget.lower() == 'l': allTargets()
             elif posTarget.lower() == 'x': return 0
@@ -52,8 +52,10 @@ def addPosition():
                 except:
                     print("Target ID must be an integer, please try again.")
                     posTarget = None
+                    continue
                 try:
                     targetName = psql.selectFromPSQL(f"SELECT target_name FROM targets WHERE target_id = {posTarget}")
+                    assert targetName and targetName != []
                     print(f'Target company {targetName} selected.')
                 except Exception as err:
                     print("Given target id not found in the database.", err)
@@ -61,7 +63,7 @@ def addPosition():
         posName = input('Enter the position title/name: ')
         posTier = None
         while isinstance(posTier, int) == False:
-            print("Enter the position priority / interest tier, or\nenter T to print a list of tiers, or\nenter X to return to the main menu", end='')
+            print("\nEnter the position priority / interest tier, or\nenter T to print a list of tiers, or\nenter X to return to the main menu", end='')
             posTier = input(": ")
             if posTier.lower() == 't': pp.printTiers()
             elif posTier.lower() == 'x': return 0
@@ -71,23 +73,26 @@ def addPosition():
                 except:
                     print("Tier ID must be an integer, please try again.")
                     posTier = None
+                    continue
                 try:
                     tierName = psql.selectFromPSQL(f"SELECT tier_name FROM tiers WHERE tier_id = {posTier}")
+                    assert tierName and tierName != []
                     print(f'Chosen tier description: {tierName}.')
                 except Exception as err:
                     print("Given tier id not found in the database.", err)
                     posTier = None
         posLink = input('Enter a link to the position description or posting: ')
         posNotes = input('Enter any relevant notes about the position: ')
-        position = (None, posTarget, posName, posTier, posLink, posNotes)
-        pp.printPosition(position)
+        pp.printPosition((None, posTarget, posName, posLink, posTier, tierName, posNotes))
         confirm = input("Enter Y to confirm position information is correct, enter X to return to the main menu, anything else to re-enter target info: ")
         if confirm.lower() == 'x': return 0
         if confirm.lower() == 'y':
-            queryText = f"INSERT INTO positions (target_id, positin_name, position_tier, position_link, position_notes) VALUES (%s, %s, %s, %s, %s)"
-            queryVars = position[1:]
+            queryText = "INSERT INTO positions (target_id, position_name, position_link, position_tier, position_notes) VALUES (%s, %s, %s, %s, %s)"
+            queryVars = ( posTarget, posName, posLink, posTier, posNotes )
             added = psql.crudPSQL(queryText, queryVars)
             pp.printAdded(added)
+
+def updateStatus():
 
 
 if __name__ == '__main__':
