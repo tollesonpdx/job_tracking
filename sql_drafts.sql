@@ -51,3 +51,25 @@ ADD COLUMN status_note TEXT;
 -- INSERT INTO targets (target_name, target_link, target_description, target_location) VALUES ('aaa','bbb','ccc', 'p,o');
 -- INSERT INTO targets (target_name, target_link, target_description, target_location)", ({targetName}, {targetLink}, {targetDesc}, {targetLoc}
 
+
+-- change datatype of tier name from varchar to text
+-- first we need to delete the view that depends on the field, change the data type, and then re-create the field
+
+DROP VIEW public.vw_position_info;
+
+ALTER TABLE tiers
+	ALTER tier_name TYPE text,
+	ALTER tier_name SET NOT NULL;
+
+CREATE OR REPLACE VIEW public.vw_position_info AS
+ SELECT p.target_id,
+    p.position_id,
+    p.position_name,
+    p.position_link,
+    p.position_tier,
+    t.tier_name,
+    p.position_notes
+   FROM positions p,
+    tiers t
+  WHERE p.position_tier = t.tier_id
+  ORDER BY p.position_id;
