@@ -13,6 +13,15 @@ def intro():
         f"***** enter anything else to exit the program"
     )
 
+def printAllTargets(results):
+    lenId, lenName = 0, 0
+    for row in results:
+        lenId = max(lenId, len(str(row[0])))
+        lenName = max(lenName, len(row[1] or ''))
+    print(f"{'ID':>{lenId}} - {'Company Name':<{lenName}} - {'Last Date of Activity'}")
+    for row in results:
+        print(f"{row[0]:>{lenId}} - {row[1] or '':<{lenName}} - {row[2] or ''}")
+
 def printTarget(target, num_spaces=0):
     l = ' ' * num_spaces # calculate the leading space
     print()
@@ -42,3 +51,10 @@ def printPosition(position, printStatusToo = True, num_spaces=0):
 def printStatus(status, num_spaces=0):
     l = ' ' * num_spaces # calculate the leading space
     print(f"{l}{status[1]} - {status[3]:>2}:{status[4]:<18} - {status[2]}")
+
+def printAdded(added):
+    print(f"{added} records added to the database")
+
+def printTiers():
+    tiers = psql.selectFromPSQL(f"SELECT * FROM tiers")
+    for tier in tiers: print(f"{tier[0]} - {tier[1]}")

@@ -7,13 +7,7 @@ def intro(defaultEntry = None):
 
 def allTargets():
     results = psql.selectFromPSQL("""SELECT * FROM vw_target_latest_status""")
-    lenId, lenName = 0, 0
-    for row in results:
-        lenId = max(lenId, len(str(row[0])))
-        lenName = max(lenName, len(row[1] or ''))
-    print(f"{'ID':>{lenId}} - {'Company Name':<{lenName}} - {'Last Date of Activity'}")
-    for row in results:
-        print(f"{row[0]:>{lenId}} - {row[1] or '':<{lenName}} - {row[2] or ''}")
+    pp.printAllTargets(results)
 
 def oneTarget(target=None):
     if not target: target = int(input('Enter id of target company: '))
@@ -27,16 +21,74 @@ def oneTarget(target=None):
 def addTarget():
     confirm = False
     while confirm != 'y':
+        print("\n Enter details for new target company.")
         targetName = input("Enter target name: ")
         targetLink = input("Enter link to target website or information: ")
         targetDesc = input("Enter a brief description of the target: ")
         targetLoc = input("Enter location of target: ")
         target = (None, targetName, targetLink, targetDesc, targetLoc)
         pp.printTarget(target)
-        confirm = input("Enter y to confirm target information is correct, enter x to exit, anything else to re-enter target info: ")
-        if confirm == 'x': return 0
-        if confirm == 'y':
-            added = psql.selectFromPSQL(f"SELECT * FROM vw_position_info WHERE target_id = {target}")
+        confirm = input("Enter y to confirm target information is correct, enter x to return to the main menu, anything else to re-enter target info: ")
+        if confirm.lower() == 'x': return 0
+        if confirm.lower() == 'y':
+            queryText = f"INSERT INTO targets (target_name, target_link, target_description, target_location) VALUES (%s, %s, %s, %s)"
+            queryVars = target[1:]
+            added = psql.crudPSQL(queryText, queryVars)
+            pp.printAdded(added)
+
+def addPosition():
+    confirm = False
+    while confirm != 'y':
+        print("\n Enter detail for new position.")
+        posTarget = None
+        while isinstance(posTarget, int) == False:
+            print("Enter the ID for the target company, or\nenter L to list target companies and their ID, or\nenter X to return to main menu", end='')
+            posTarget = input(': ')
+            if posTarget.lower() == 'l': allTargets()
+            elif posTarget.lower() == 'x': return 0
+            else:
+                try:
+                    posTarget = int(posTarget)
+                except:
+                    print("Target ID must be an integer, please try again.")
+                    posTarget = None
+                try:
+                    targetName = psql.selectFromPSQL(f"SELECT target_name FROM targets WHERE target_id = {posTarget}")
+                    print(f'Target company {targetName} selected.')
+                except Exception as err:
+                    print("Given target id not found in the database.", err)
+                    posTarget = None
+        posName = input('Enter the position title/name: ')
+        posTier = None
+        while isinstance(posTier, int) == False:
+            print("Enter the position priority / interest tier, or\nenter T to print a list of tiers, or\nenter X to return to the main menu", end='')
+            posTier = input(": ")
+            if posTier.lower() == 't': pp.printTiers()
+            elif posTier.lower() == 'x': return 0
+            else:
+                try:
+                    posTier = int(posTier)
+                except:
+                    print("Tier ID must be an integer, please try again.")
+                    posTier = None
+                try:
+                    tierName = psql.selectFromPSQL(f"SELECT tier_name FROM tiers WHERE tier_id = {posTier}")
+                    print(f'Chosen tier description: {tierName}.')
+                except Exception as err:
+                    print("Given tier id not found in the database.", err)
+                    posTier = None
+        posLink = input('Enter a link to the position description or posting: ')
+        posNotes = input('Enter any relevant notes about the position: ')
+        position = (None, posTarget, posName, posTier, posLink, posNotes)
+        pp.printPosition(position)
+        confirm = input("Enter Y to confirm position information is correct, enter X to return to the main menu, anything else to re-enter target info: ")
+        if confirm.lower() == 'x': return 0
+        if confirm.lower() == 'y':
+            queryText = f"INSERT INTO positions (target_id, positin_name, position_tier, position_link, position_notes) VALUES (%s, %s, %s, %s, %s)"
+            queryVars = position[1:]
+            added = psql.crudPSQL(queryText, queryVars)
+            pp.printAdded(added)
+
 
 if __name__ == '__main__':
     intro(1)

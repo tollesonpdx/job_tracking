@@ -44,3 +44,10 @@ ORDER BY target_name, position_name, status_id;
 -- add a new column to the status log table
 ALTER TABLE status_log
 ADD COLUMN status_note TEXT;
+
+
+
+-- insert new Target company
+-- INSERT INTO targets (target_name, target_link, target_description, target_location) VALUES ('aaa','bbb','ccc', 'p,o');
+-- INSERT INTO targets (target_name, target_link, target_description, target_location)", ({targetName}, {targetLink}, {targetDesc}, {targetLoc}
+

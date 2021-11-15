@@ -23,15 +23,15 @@ def selectFromPSQL(queryText="""SELECT version()""", v=False):
             connection.close()
         if v: print('PostgreSQL database connection closed.')
 
-def crudPSQL(queryText):
+def crudPSQL(queryText, queryVars):
     connection = None
     try:
         parameters = getConfiguration.config('database.ini', 'postgresql')
         connection = psycopg2.connect(**parameters)
         cursor = connection.cursor()
-        cursor.execute(queryText)
+        cursor.execute(queryText, queryVars)
         connection.commit()
-        return cursor.rowcount()
+        return cursor.rowcount
     except (Exception, psycopg2.Error) as error:
         print(f'There was an error when connecting: {error}')
     finally:

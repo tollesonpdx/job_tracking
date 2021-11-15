@@ -21,9 +21,14 @@ Tool for tracking target companies, job applications, and application status.
 - create a Sankey diagram
 - verfiy DB table keys and foreign key logic to ensure duplicates are not possible
 - refactor psycopg2/SQL to reduce risk of SQL injection
+- add error checking for Target Name when entering a new target
 
 ### References ###
 - ConfigParser - https://docs.python.org/3/library/configparser.html
 - pyscopg / PostgreSQL Quick Reference - https://pynative.com/python-postgresql-tutorial/
 - Solution to previously unidentified name shadowing problem - https://stackoverflow.com/a/43768050/8901223
 - fancy formatting f-strings - https://www.peterbe.com/plog/how-to-pad-fill-string-by-variable-python
+- resources for converting Integer ID fields to SERIAL after tables are partially populated
+    - http://www.sqlines.com/postgresql/datatypes/serial
+    - https://stackoverflow.com/a/16474780
+    
