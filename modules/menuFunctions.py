@@ -16,6 +16,7 @@ def oneTarget(target=None):
     for row in results:
         pp.printTarget(row)
     results = psql.selectFromPSQL(f"SELECT * FROM vw_position_info WHERE target_id = {target}")
+    print(f'Positions: {len(results)}')
     for row in results:
         pp.printPosition(row, True, 4)
 
@@ -160,15 +161,17 @@ def updateStatus():
         statusNote = input('Enter any relevant notes about the status update: ')
         statusDate = None
         while isinstance(statusDate, datetime.datetime) == False:
-            statusDate = input("Enter the date of the status update, format YYY-MM-DD, or\n leave the entry blank to use the current date and time:")
-            if not statusDate: statusDate = datetime.datetime.now()
+            statusDate = input("Enter the date of the status update, format YYYY-MM-DD, or\nleave the entry blank to use the current date and time:")
+            if not statusDate:
+                statusDate = datetime.datetime.now()
             else:
                 try:
                     statusDate = datetime.datetime.strptime(statusDate, "%Y-%m-%d")
                 except:
                     print('Incorrect date format, please try again.')
                     statusDate = None
-        statusUpdate = (posId, statusDate.isoformat(), statusNote, statusId, status[0][0])
+        statusDate = statusDate.isoformat(sep = ' ', timespec='seconds')
+        statusUpdate = (posId, statusDate, statusNote, statusId, status[0][0])
         print(statusUpdate)
         confirm = input("Enter Y to confirm that updated status is correct, enter X to return to the main menu, anything else to re-enter status update info: ")
         if confirm.lower() == 'x': return 0

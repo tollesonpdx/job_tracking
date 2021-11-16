@@ -19,9 +19,9 @@ Tool for tracking target companies, job applications, and application status.
 - create a data model to store database in a hosted environment (GCP, Heroku, etc.)
 - create a web interface
 - create a Sankey diagram
-- verfiy DB table keys and foreign key logic to ensure duplicates are not possible
+- ~~verfiy DB table keys and foreign key logic to ensure duplicates are not possible~~
 - refactor psycopg2/SQL to reduce risk of SQL injection
-- add error checking for Target Name when entering a new target
+- ~~add error checking for Target Name when entering a new target~~
 
 ### References ###
 - ConfigParser - https://docs.python.org/3/library/configparser.html
