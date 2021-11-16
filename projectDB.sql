@@ -16,6 +16,20 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: position_id_sequence; Type: SEQUENCE; Schema: public; Owner: chadtolleson
+--
+
+CREATE SEQUENCE public.position_id_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.position_id_sequence OWNER TO chadtolleson;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -25,8 +39,8 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.positions (
-    position_id integer,
-    target_id integer,
+    position_id integer DEFAULT nextval('public.position_id_sequence'::regclass) NOT NULL,
+    target_id integer NOT NULL,
     position_name text,
     position_tier integer,
     position_link text,
@@ -37,14 +51,28 @@ CREATE TABLE public.positions (
 ALTER TABLE public.positions OWNER TO chadtolleson;
 
 --
+-- Name: status_log_id_sequence; Type: SEQUENCE; Schema: public; Owner: chadtolleson
+--
+
+CREATE SEQUENCE public.status_log_id_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.status_log_id_sequence OWNER TO chadtolleson;
+
+--
 -- Name: status_log; Type: TABLE; Schema: public; Owner: chadtolleson
 --
 
 CREATE TABLE public.status_log (
-    id integer,
-    position_id integer,
-    status_date timestamp with time zone,
-    status_id integer,
+    id integer DEFAULT nextval('public.status_log_id_sequence'::regclass) NOT NULL,
+    position_id integer NOT NULL,
+    status_date timestamp with time zone NOT NULL,
+    status_id integer NOT NULL,
     status_note text
 );
 
@@ -56,20 +84,34 @@ ALTER TABLE public.status_log OWNER TO chadtolleson;
 --
 
 CREATE TABLE public.statuses (
-    status_id integer,
-    status text
+    status_id integer NOT NULL,
+    status text NOT NULL
 );
 
 
 ALTER TABLE public.statuses OWNER TO chadtolleson;
 
 --
+-- Name: target_id_sequence; Type: SEQUENCE; Schema: public; Owner: chadtolleson
+--
+
+CREATE SEQUENCE public.target_id_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.target_id_sequence OWNER TO chadtolleson;
+
+--
 -- Name: targets; Type: TABLE; Schema: public; Owner: chadtolleson
 --
 
 CREATE TABLE public.targets (
-    target_id integer,
-    target_name text,
+    target_id integer DEFAULT nextval('public.target_id_sequence'::regclass) NOT NULL,
+    target_name text NOT NULL,
     target_link text,
     target_description text,
     target_location text
@@ -83,8 +125,8 @@ ALTER TABLE public.targets OWNER TO chadtolleson;
 --
 
 CREATE TABLE public.tiers (
-    tier_id integer,
-    tier_name character(50)
+    tier_id integer NOT NULL,
+    tier_name text NOT NULL
 );
 
 
@@ -177,6 +219,14 @@ ALTER TABLE ONLY public.positions
 
 ALTER TABLE ONLY public.status_log
     ADD CONSTRAINT status_log_id_key UNIQUE (id);
+
+
+--
+-- Name: status_log status_log_pkey; Type: CONSTRAINT; Schema: public; Owner: chadtolleson
+--
+
+ALTER TABLE ONLY public.status_log
+    ADD CONSTRAINT status_log_pkey PRIMARY KEY (position_id, status_date, status_id);
 
 
 --
