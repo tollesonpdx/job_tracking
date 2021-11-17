@@ -183,8 +183,8 @@ def updateStatus():
 
 def searchTargetName(term = None):
     if not term: term = input("\nEnter part of the target name for which you want to search: ")
-    queryText = "SELECT * FROM vw_target_latest_status WHERE name LIKE %s"
-    queryVars = ('%{}%'.format(term), )
+    queryText = "SELECT * FROM vw_target_latest_status WHERE LOWER(name) LIKE %s"
+    queryVars = ('%{}%'.format(term.lower()), )
     results = psql.selectFromPSQL(queryText, queryVars)
     pp.printAllTargets(results)
 
