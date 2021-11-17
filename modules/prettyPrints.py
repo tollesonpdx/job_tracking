@@ -10,6 +10,7 @@ def intro():
         f"3 - Add a new target company\n"
         f"4 - Add a new position\n"
         f"5 - Update status of existing position\n"
+        f"6 - Search for a target using their name\n"
         f"***** enter anything else to exit the program"
     )
 

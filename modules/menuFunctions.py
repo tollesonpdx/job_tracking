@@ -181,7 +181,16 @@ def updateStatus():
             added = psql.crudPSQL(queryText, queryVars)
             pp.printAdded(added)
 
+def searchTargetName(term = None):
+    if not term: term = input("\nEnter part of the target name for which you want to search: ")
+    queryText = "SELECT * FROM vw_target_latest_status WHERE name LIKE %s"
+    queryVars = ('%{}%'.format(term), )
+    results = psql.selectFromPSQL(queryText, queryVars)
+    pp.printAllTargets(results)
+
+
 if __name__ == '__main__':
     intro(1)
     allTargets()
     oneTarget(126)
+    searchTargetName('zon')

@@ -1,7 +1,7 @@
 import psycopg2
 from configurations import getConfiguration
 
-def selectFromPSQL(queryText="""SELECT version()""", v=False):
+def selectFromPSQL(queryText="""SELECT version()""", queryVars = None, v=False):
     """ Connect to the PostgreSQL database server """
     connection = None
     try:
@@ -13,7 +13,7 @@ def selectFromPSQL(queryText="""SELECT version()""", v=False):
             print(f'PostgreSQL server information: {connection.get_dsn_parameters()}')
             cursor.execute("""SELECT version()""")
             print(f'PostgreSQL database version: {cursor.fetchall()}')
-        cursor.execute(queryText)
+        cursor.execute(queryText, queryVars)
         return cursor.fetchall()
     except (Exception, psycopg2.Error) as error:
         print(f'There was an error when connecting: {error}')
