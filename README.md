@@ -22,6 +22,7 @@ Tool for tracking target companies, job applications, and application status.
 - ~~verfiy DB table keys and foreign key logic to ensure duplicates are not possible~~
 - refactor psycopg2/SQL to reduce risk of SQL injection
 - ~~add error checking for Target Name when entering a new target~~
+- break out the input functions from the menuFuncs and into a new module
 
 ### References ###
 - ConfigParser - https://docs.python.org/3/library/configparser.html

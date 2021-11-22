@@ -161,7 +161,7 @@ def updateStatus():
         statusNote = input('Enter any relevant notes about the status update: ')
         statusDate = None
         while isinstance(statusDate, datetime.datetime) == False:
-            statusDate = input("Enter the date of the status update, format YYYY-MM-DD, or\nleave the entry blank to use the current date and time:")
+            statusDate = input("Enter the date of the status update, format YYYY-MM-DD, or\nleave the entry blank to use the current date and time: ")
             if not statusDate:
                 statusDate = datetime.datetime.now()
             else:
@@ -186,6 +186,7 @@ def searchTargetName(term = None):
     queryText = "SELECT * FROM vw_target_latest_status WHERE LOWER(name) LIKE %s"
     queryVars = ('%{}%'.format(term.lower()), )
     results = psql.selectFromPSQL(queryText, queryVars)
+    print(f'\n{len(results)} possible matches found.')
     pp.printAllTargets(results)
 
 
