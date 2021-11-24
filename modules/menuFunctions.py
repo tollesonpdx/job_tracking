@@ -65,9 +65,9 @@ def addPosition():
         posName = input('Enter the position title/name: ')
         posTier = None
         while isinstance(posTier, int) == False:
-            print("\nEnter the position priority / interest tier, or\nenter T to print a list of tiers, or\nenter X to return to the main menu", end='')
+            print("\nEnter the position priority / interest tier, or\nenter L to print a list of tiers, or\nenter X to return to the main menu", end='')
             posTier = input(": ")
-            if posTier.lower() == 't': pp.printTiers()
+            if posTier.lower() == 'l': pp.printTiers()
             elif posTier.lower() == 'x': return 0
             else:
                 try:
@@ -83,9 +83,10 @@ def addPosition():
                 except Exception as err:
                     print("Given tier id not found in the database.", err)
                     posTier = None
-        posLink = input('Enter a link to the position description or posting: ')
+        posLink = input('\nEnter a link to the position description or posting: ')
         posNotes = input('Enter any relevant notes about the position: ')
-        pp.printPosition((None, posTarget, posName, posLink, posTier, tierName, posNotes))
+        position = (posTarget, "new", posName, posLink, posTier, tierName, posNotes)
+        pp.printPosition(position=position, printStatusToo=False)
         confirm = input("Enter Y to confirm position information is correct, enter X to return to the main menu, anything else to re-enter target info: ")
         if confirm.lower() == 'x': return 0
         if confirm.lower() == 'y':
@@ -120,9 +121,9 @@ def updateStatus():
                     posTarget = None
         posId = None
         while isinstance(posId, int) == False:
-            print("\nEnter the position id, or\nenter P to print a list of positions, or\nenter X to return to the main menu", end='')
+            print("\nEnter the position id, or\nenter L to print a list of positions, or\nenter X to return to the main menu", end='')
             posId = input(": ")
-            if posId.lower() == 'p': oneTarget(posTarget)
+            if posId.lower() == 'l': oneTarget(posTarget)
             elif posId.lower() == 'x': return 0
             else:
                 try:
@@ -140,9 +141,9 @@ def updateStatus():
                     posId = None
         statusId = None
         while isinstance(statusId, int) == False:
-            print("\nEnter the status id, or\nenter S to print a list of statuses, or\nenter X to return to the main menu", end='')
+            print("\nEnter the status id, or\nenter L to print a list of statuses, or\nenter X to return to the main menu", end='')
             statusId = input(": ")
-            if statusId.lower() == 's': pp.printStatuses()
+            if statusId.lower() == 'l': pp.printStatuses()
             elif statusId.lower() == 'x': return 0
             else:
                 try:
@@ -188,6 +189,12 @@ def searchTargetName(term = None):
     results = psql.selectFromPSQL(queryText, queryVars)
     print(f'\n{len(results)} possible matches found.')
     pp.printAllTargets(results)
+
+def listJobBoards():
+    queryText = "SELECT * FROM vw_jobboards_and_recruiters"
+    queryVars = ()
+    results = psql.selectFromPSQL(queryText, queryVars)
+    pp.printJobBoardsRecruiters(results)
 
 
 if __name__ == '__main__':

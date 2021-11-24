@@ -6,11 +6,12 @@ def intro():
         f"---------------------------------------------------------------------\n"
         f"Hello, welcome to the job tracking application. Here are the options:\n"
         f"1 - Display Target Companies\n"
-        f"2 - Look at specific jobs at a particular company\n"
-        f"3 - Add a new target company\n"
-        f"4 - Add a new position\n"
-        f"5 - Update status of existing position\n"
-        f"6 - Search for a target using their name\n"
+        f"2 - Search for a target using their name\n"
+        f"3 - Look at specific jobs at a particular company\n"
+        f"4 - Add a new target company\n"
+        f"5 - Add a new position\n"
+        f"6 - Update status of existing position\n"
+        f"7 - List just the active job boards\n"
         f"***** enter anything else to exit the program"
     )
 
@@ -22,6 +23,17 @@ def printAllTargets(results):
     print(f"{'ID':>{lenId}} - {'Company Name':<{lenName}} - {'Last Date of Activity'}")
     for row in results:
         print(f"{row[0]:>{lenId}} - {row[1] or '':<{lenName}} - {row[2] or ''}")
+
+def printJobBoardsRecruiters(results):
+    lenId, lenName = 0, 0
+    lenDate = 25
+    lenStatus = 17
+    for row in results:
+        lenId = max(lenId, len(str(row[0])))
+        lenName = max(lenName, len(row[1] or ''))
+    print(f"\n{'ID':>{lenId}} - {'Company Name':<{lenName}} - {'Last Date of Activity':<{lenDate}} - {'Status':<{lenStatus}} - {'Link'}")
+    for row in results:
+        print(f"{row[0]:>{lenId}} - {row[1] or '':<{lenName}} - {str(row[6]):<{lenDate}} - {row[5]:<{lenStatus}} - {row[4]}")
 
 def printTarget(target, num_spaces=0):
     l = ' ' * num_spaces # calculate the leading space
@@ -72,4 +84,4 @@ if __name__ == '__main__':
     printPosition((None, 1, 'aaa', 'www.nyt.com', 0, 'recruiter', 'aaa'))
 
     print('\n\n\n printing all position data for target 1')
-    printPositionsForTarget(1)
+  

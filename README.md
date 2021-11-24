@@ -14,7 +14,7 @@ Tool for tracking target companies, job applications, and application status.
 ### To-Do ###
 - add functionality for sqlite3, may need to create a more generalizable database connection system
 - ~~write view to list targets and their most recent activity date~~
-- create status to bury a target
+- ~~create status to bury a target~~
 - ~~write a view to display the activity log for a particular target/position~~
 - create a data model to store database in a hosted environment (GCP, Heroku, etc.)
 - create a web interface
