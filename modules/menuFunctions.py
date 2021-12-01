@@ -155,7 +155,7 @@ def updateStatus():
                 try:
                     status = psql.selectFromPSQL(f'SELECT status FROM statuses WHERE status_id = {statusId}')
                     assert status and status != []
-                    print(f'Selected statis: {status}.')
+                    print(f'Selected status: {status}.')
                 except Exception as err:
                     print("Given status id not found in the database.", err)
                     statusId = None
